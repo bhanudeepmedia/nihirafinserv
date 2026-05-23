@@ -1,0 +1,6 @@
+{
+  "name": "Nihira Finserv",
+  "description": "A trusted consulting platform providing guidance, callback support, and consultation across loans, insurance, credit score repair, mutual funds, and accounts & tax filing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageId } from '../types';
-import { ShieldCheck, MessageCircle, Terminal, Clock } from 'lucide-react';
+import { ShieldCheck, MessageCircle, Terminal, Clock, Facebook, Instagram } from 'lucide-react';
 
 interface FooterProps {
   activeTab: PageId;
@@ -101,19 +101,19 @@ export default function Footer({ activeTab, setActiveTab, openAdminPanel, openBo
                   href="https://facebook.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="w-9 h-9 rounded-xl bg-[#F5F5F4] border border-[#E6E6E6] flex items-center justify-center text-lg hover:bg-[#0d3979]/10 hover:border-[#0d3979] transition-all cursor-pointer shadow-sm"
+                  className="w-9 h-9 rounded-xl bg-[#F5F5F4] border border-[#E6E6E6] flex items-center justify-center text-[#111827]/75 hover:bg-[#0d3979] hover:text-white hover:border-[#0d3979] transition-all cursor-pointer shadow-sm"
                   title="Facebook"
                 >
-                  📘
+                  <Facebook className="w-4 h-4" />
                 </a>
                 <a 
                   href="https://instagram.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="w-9 h-9 rounded-xl bg-[#F5F5F4] border border-[#E6E6E6] flex items-center justify-center text-lg hover:bg-[#0d3979]/10 hover:border-[#0d3979] transition-all cursor-pointer shadow-sm"
+                  className="w-9 h-9 rounded-xl bg-[#F5F5F4] border border-[#E6E6E6] flex items-center justify-center text-[#111827]/75 hover:bg-[#0d3979] hover:text-white hover:border-[#0d3979] transition-all cursor-pointer shadow-sm"
                   title="Instagram"
                 >
-                  📸
+                  <Instagram className="w-4 h-4" />
                 </a>
               </div>
             </div>

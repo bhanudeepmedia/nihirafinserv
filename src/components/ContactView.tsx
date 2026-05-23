@@ -22,7 +22,7 @@ export default function ContactView({ onSubmitConsultation }: ContactViewProps) 
       'Project funding',
       'School and college funding',
       'Solar funding',
-      'NRA loans'
+      'nihira-finserv loans'
     ],
     'Insurance': [
       'Health Insurance',

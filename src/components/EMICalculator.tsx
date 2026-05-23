@@ -115,6 +115,7 @@ export default function EMICalculator() {
     const csvRows = [
       ["NIHIRA FINSERV", "OFFICIAL LOAN AMORTIZATION SCHEDULE RECONCILIATION REPORT"],
       ["Report Generated", `${new Date().toLocaleDateString('en-IN')} ${new Date().toLocaleTimeString('en-IN')}`],
+      ["Contact Support", "Phone/WhatsApp: +91 8143355559"],
       [],
       ["LOAN INFORMATION AND SUMMARY", ""],
       ["Principal Loan Value Requested", `INR ${loanAmount}`],
@@ -174,6 +175,16 @@ export default function EMICalculator() {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(7.5);
     doc.text("STANDARD GUIDANCE & SERVICE SUPPORT", 20, 28);
+
+    // Business Contact Support Details (Right Aligned)
+    doc.setTextColor(13, 57, 121);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8.5);
+    doc.text("CONTACT SUPPORT", 190, 24, { align: "right" });
+    doc.setTextColor(17, 24, 39);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7.5);
+    doc.text("Phone/WhatsApp: +91 8143355559", 190, 28, { align: "right" });
 
     // Document Main Title
     doc.setTextColor(17, 24, 39); // #111827
@@ -393,10 +404,8 @@ export default function EMICalculator() {
               className="w-full h-1.5 bg-[#F5F5F4] rounded-lg appearance-none cursor-pointer accent-black focus:outline-none"
             />
             <div className="flex justify-between font-mono text-[9px] text-[#111827]/50 mt-2">
-              <span>₹1 Lakh</span>
-              <span>₹50 Lakhs</span>
-              <span>₹1 Crore</span>
-              <span>₹5 Crores</span>
+              <span>Min: ₹1 Lakh</span>
+              <span>Max: ₹25 Crores</span>
             </div>
           </div>
 
@@ -431,10 +440,8 @@ export default function EMICalculator() {
               className="w-full h-1.5 bg-[#F5F5F4] rounded-lg appearance-none cursor-pointer accent-black focus:outline-none"
             />
             <div className="flex justify-between font-mono text-[9px] text-[#111827]/50 mt-2">
-              <span>4.00%</span>
-              <span>8.50% Standard</span>
-              <span>12.00%</span>
-              <span>18.00% Max</span>
+              <span>Min: 4.00%</span>
+              <span>Max: 24.00%</span>
             </div>
           </div>
 
@@ -505,9 +512,8 @@ export default function EMICalculator() {
               className="w-full h-1.5 bg-[#F5F5F4] rounded-lg appearance-none cursor-pointer accent-black focus:outline-none"
             />
             <div className="flex justify-between font-mono text-[9px] text-[#111827]/50 mt-2">
-              <span>{termUnit === 'years' ? '1 Year' : '1 Month'}</span>
-              <span>{termUnit === 'years' ? '15 Years' : '180 Months'}</span>
-              <span>{termUnit === 'years' ? '30 Years' : '360 Months'}</span>
+              <span>Min: {termUnit === 'years' ? '1 Year' : '1 Month'}</span>
+              <span>Max: {termUnit === 'years' ? '35 Years' : '360 Months'}</span>
             </div>
           </div>
 

@@ -542,12 +542,12 @@ export default function HomeView({ services, onSelectService, setActiveTab, open
               </p>
             </div>
 
-            {/* Card 6: Digital Convenience (Highlighted Border) */}
-            <div className="border-2 border-[#2F6E73] rounded-[32px] p-8 bg-[#2F6E73]/5 hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-md">
-              <div className="w-14 h-14 rounded-2xl bg-[#2F6E73]/10 flex items-center justify-center text-[#2F6E73]">
+            {/* Card 6: Digital Convenience */}
+            <div className="border border-[#E6E6E6] rounded-[32px] p-8 bg-[#F5F5F4]/20 hover:scale-[1.02] hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-[#2F6E73]/5 flex items-center justify-center text-[#2F6E73]">
                 <Smartphone className="w-7 h-7" />
               </div>
-              <h3 className="font-sans font-black text-lg text-[#2F6E73] uppercase">
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase">
                 Digital Convenience
               </h3>
               <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Service, PageId } from '../types';
-import { Sparkles, ArrowRight, ShieldCheck, ChevronRight, Sliders, MessageCircle, PhoneCall } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, ChevronRight, Sliders, MessageCircle, PhoneCall, Shield, Clock, Users, Award, Leaf, Smartphone, FileText, UserCheck, Search, Handshake } from 'lucide-react';
 
 interface HomeViewProps {
   services: Service[];
@@ -457,6 +457,182 @@ export default function HomeView({ services, onSelectService, setActiveTab, open
               </span>
               <p className="font-sans text-[11px] text-[#111827]/60 mt-1 leading-relaxed font-semibold">
                 We design services around understanding your daily needs and budget, strictly without hype.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* WHY CHOOSE NIHIRA FINSERV? */}
+      <section className="bg-white py-24 px-6 md:px-8 border-b border-[#E6E6E6]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="font-sans font-black text-3xl md:text-4xl tracking-tight text-[#0d3979] uppercase">
+              Why Choose Nihira Finserv?
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-[#111827]/60 leading-relaxed mt-2.5 font-medium">
+              Discover what sets us apart in the financial services industry
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Card 1: Trusted Partnerships */}
+            <div className="border border-[#E6E6E6] rounded-[32px] p-8 bg-[#F5F5F4]/20 hover:scale-[1.02] hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-[#0d3979]/5 flex items-center justify-center text-[#0d3979]">
+                <Shield className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase">
+                Trusted Partnerships
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                We partner with over 40 leading banks to offer you the best rates and terms available in the market.
+              </p>
+            </div>
+
+            {/* Card 2: Quick Processing */}
+            <div className="border border-[#E6E6E6] rounded-[32px] p-8 bg-[#F5F5F4]/20 hover:scale-[1.02] hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-[#2F6E73]/5 flex items-center justify-center text-[#2F6E73]">
+                <Clock className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase">
+                Quick Processing
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                Our streamlined process ensures fast approvals and disbursals, getting you the funds you need when you need them.
+              </p>
+            </div>
+
+            {/* Card 3: Expert Guidance */}
+            <div className="border border-[#E6E6E6] rounded-[32px] p-8 bg-[#F5F5F4]/20 hover:scale-[1.02] hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-[#0d3979]/5 flex items-center justify-center text-[#0d3979]">
+                <Users className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase">
+                Expert Guidance
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                Our experienced team provides personalized financial advice to help you make informed decisions.
+              </p>
+            </div>
+
+            {/* Card 4: 95+% Success Rate */}
+            <div className="border border-[#E6E6E6] rounded-[32px] p-8 bg-[#F5F5F4]/20 hover:scale-[1.02] hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-[#2F6E73]/5 flex items-center justify-center text-[#2F6E73]">
+                <Award className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase">
+                95+% Success Rate
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                With nearly two decades of experience, we have a proven track record of helping clients achieve their financial goals.
+              </p>
+            </div>
+
+            {/* Card 5: Sustainable Financing */}
+            <div className="border border-[#E6E6E6] rounded-[32px] p-8 bg-[#F5F5F4]/20 hover:scale-[1.02] hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-[#0d3979]/5 flex items-center justify-center text-[#0d3979]">
+                <Leaf className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase">
+                Sustainable Financing
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                We offer green financing options to support environmentally friendly projects and initiatives.
+              </p>
+            </div>
+
+            {/* Card 6: Digital Convenience (Highlighted Border) */}
+            <div className="border-2 border-[#2F6E73] rounded-[32px] p-8 bg-[#2F6E73]/5 hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-md">
+              <div className="w-14 h-14 rounded-2xl bg-[#2F6E73]/10 flex items-center justify-center text-[#2F6E73]">
+                <Smartphone className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#2F6E73] uppercase">
+                Digital Convenience
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                Apply online, track your application status, and manage your loans through our user-friendly digital platform.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* OUR SIMPLE PROCESS */}
+      <section className="bg-[#F5F5F4]/60 py-24 px-6 md:px-8 border-b border-[#E6E6E6]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="font-sans font-black text-3xl md:text-4xl tracking-tight text-[#0d3979] uppercase">
+              Our Simple Process
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-[#111827]/60 leading-relaxed mt-2.5 font-medium">
+              Get your loan in just a few easy steps
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            
+            {/* Step 1 */}
+            <div className="relative border border-[#E6E6E6] rounded-[32px] p-8 bg-white hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm pt-12 animate-none">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#0d3979] text-white flex items-center justify-center font-sans font-black text-sm shadow-md border-4 border-white">
+                01
+              </div>
+              <div className="w-14 h-14 rounded-2xl bg-[#0d3979]/5 flex items-center justify-center text-[#0d3979]">
+                <FileText className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase animate-none">
+                Apply Online
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                Fill out our simple online application form with your basic details and requirements.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative border border-[#E6E6E6] rounded-[32px] p-8 bg-white hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm pt-12 animate-none">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#0d3979] text-white flex items-center justify-center font-sans font-black text-sm shadow-md border-4 border-white">
+                02
+              </div>
+              <div className="w-14 h-14 rounded-2xl bg-[#2F6E73]/5 flex items-center justify-center text-[#2F6E73]">
+                <UserCheck className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase animate-none">
+                Document Verification
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                Submit your documents for verification. Our team will guide you through the process.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative border border-[#E6E6E6] rounded-[32px] p-8 bg-white hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm pt-12 animate-none">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#0d3979] text-white flex items-center justify-center font-sans font-black text-sm shadow-md border-4 border-white">
+                03
+              </div>
+              <div className="w-14 h-14 rounded-2xl bg-[#0d3979]/5 flex items-center justify-center text-[#0d3979]">
+                <Search className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase animate-none">
+                Credit Assessment
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                We assess your creditworthiness and match you with the best loan options available.
+              </p>
+            </div>
+
+            {/* Step 4 */}
+            <div className="relative border border-[#E6E6E6] rounded-[32px] p-8 bg-white hover:border-[#0d3979] transition-all duration-300 flex flex-col items-center text-center space-y-4 shadow-sm pt-12 animate-none">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#0d3979] text-white flex items-center justify-center font-sans font-black text-sm shadow-md border-4 border-white">
+                04
+              </div>
+              <div className="w-14 h-14 rounded-2xl bg-[#2F6E73]/5 flex items-center justify-center text-[#2F6E73]">
+                <Handshake className="w-7 h-7" />
+              </div>
+              <h3 className="font-sans font-black text-lg text-[#0d3979] uppercase animate-none">
+                Loan Approval & Disbursal
+              </h3>
+              <p className="font-sans text-xs text-[#111827]/70 leading-relaxed font-medium">
+                Once approved, funds are disbursed directly to your account within 24-48 hours.
               </p>
             </div>
 

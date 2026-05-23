@@ -21,7 +21,8 @@ export default function ContactView({ onSubmitConsultation }: ContactViewProps) 
       'Vehicle loans',
       'Project funding',
       'School and college funding',
-      'Solar funding'
+      'Solar funding',
+      'NRA loans'
     ],
     'Insurance': [
       'Health Insurance',

@@ -91,6 +91,32 @@ export default function Footer({ activeTab, setActiveTab, openAdminPanel, openBo
                 </span>
               </div>
             </div>
+
+            <div className="pt-4 border-t border-[#E6E6E6] space-y-2">
+              <span className="font-mono text-[8.5px] tracking-widest text-[#2F6E73] font-bold block uppercase">
+                CONNECT WITH US
+              </span>
+              <div className="flex gap-4 items-center">
+                <a 
+                  href="https://facebook.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-9 h-9 rounded-xl bg-[#F5F5F4] border border-[#E6E6E6] flex items-center justify-center text-lg hover:bg-[#0d3979]/10 hover:border-[#0d3979] transition-all cursor-pointer shadow-sm"
+                  title="Facebook"
+                >
+                  📘
+                </a>
+                <a 
+                  href="https://instagram.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-9 h-9 rounded-xl bg-[#F5F5F4] border border-[#E6E6E6] flex items-center justify-center text-lg hover:bg-[#0d3979]/10 hover:border-[#0d3979] transition-all cursor-pointer shadow-sm"
+                  title="Instagram"
+                >
+                  📸
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Column 2: 5 Core Services */}

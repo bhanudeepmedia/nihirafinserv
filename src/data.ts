@@ -24,7 +24,8 @@ export const INITIAL_SERVICES: Service[] = [
       'Vehicle loans',
       'Project funding',
       'School and college funding',
-      'Solar funding'
+      'Solar funding',
+      'NRA loans'
     ],
     caseExample: {
       client: 'Visakhapatnam Small Business Owner',
@@ -37,7 +38,7 @@ export const INITIAL_SERVICES: Service[] = [
     order: 1,
     isVisible: true,
     faqs: [
-      { question: 'What types of loans do you consult for in Visakhapatnam?', answer: 'We offer specialized consultation for Housing loans, Personal loans, Mortgage loans, Unsecured business loans, Working capital OD/CC, MSME loans, Professional loans, Machinery/Equipment loans, Vehicle loans, Project funding, School/College funding, and Solar funding across Vizag and AP.' },
+      { question: 'What types of loans do you consult for in Visakhapatnam?', answer: 'We offer specialized consultation for Housing loans, Personal loans, Mortgage loans, Unsecured business loans, Working capital OD/CC, MSME loans, Professional loans, Machinery/Equipment loans, Vehicle loans, Project funding, School/College funding, Solar funding, and NRA loans across Vizag and AP.' },
       { question: 'How does Nihira Finserv assist in the process?', answer: 'We guide you on documentation preparation, eligibility analysis, and coordinate with trusted channels to find the most cost-effective terms in Vizag, Andhra Pradesh.' }
     ]
   },

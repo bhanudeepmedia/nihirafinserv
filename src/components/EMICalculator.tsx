@@ -105,7 +105,7 @@ export default function EMICalculator() {
     const numericStr = valStr.replace(/[^0-9]/g, '');
     setTypedTerm(numericStr);
     const val = parseInt(numericStr, 10);
-    if (!isNaN(val) && val >= 1) {
+    if (!isNaN(val) && val >= 0) {
       setLoanTerm(val);
     }
   };
@@ -392,7 +392,7 @@ export default function EMICalculator() {
             </div>
             <input
               type="range"
-              min="100000"
+              min="0"
               max="250000000"
               step="50000"
               value={loanAmount}
@@ -403,10 +403,6 @@ export default function EMICalculator() {
               }}
               className="w-full h-1.5 bg-[#F5F5F4] rounded-lg appearance-none cursor-pointer accent-black focus:outline-none"
             />
-            <div className="flex justify-between font-mono text-[9px] text-[#111827]/50 mt-2">
-              <span>Min: ₹1 Lakh</span>
-              <span>Max: ₹25 Crores</span>
-            </div>
           </div>
 
           {/* INTEREST RATE Panel */}
@@ -428,7 +424,7 @@ export default function EMICalculator() {
             </div>
             <input
               type="range"
-              min="4"
+              min="0"
               max="24"
               step="0.05"
               value={interestRate}
@@ -439,10 +435,6 @@ export default function EMICalculator() {
               }}
               className="w-full h-1.5 bg-[#F5F5F4] rounded-lg appearance-none cursor-pointer accent-black focus:outline-none"
             />
-            <div className="flex justify-between font-mono text-[9px] text-[#111827]/50 mt-2">
-              <span>Min: 4.00%</span>
-              <span>Max: 24.00%</span>
-            </div>
           </div>
 
           {/* TIME DURATION Panel */}
@@ -500,7 +492,7 @@ export default function EMICalculator() {
             </div>
             <input
               type="range"
-              min="1"
+              min="0"
               max={termUnit === 'years' ? 35 : 360}
               step="1"
               value={loanTerm}
@@ -511,10 +503,6 @@ export default function EMICalculator() {
               }}
               className="w-full h-1.5 bg-[#F5F5F4] rounded-lg appearance-none cursor-pointer accent-black focus:outline-none"
             />
-            <div className="flex justify-between font-mono text-[9px] text-[#111827]/50 mt-2">
-              <span>Min: {termUnit === 'years' ? '1 Year' : '1 Month'}</span>
-              <span>Max: {termUnit === 'years' ? '35 Years' : '360 Months'}</span>
-            </div>
           </div>
 
           <div className="bg-[#F5F5F4]/60 border border-[#E6E6E6] rounded-2xl p-4 flex gap-3 items-start">

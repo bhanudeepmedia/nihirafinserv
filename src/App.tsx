@@ -47,7 +47,7 @@ export default function App() {
   // 2. DATABASE INITIALIZATION (LOCALSTORAGE SYNCHRONIZED with self-repair check)
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('nihira_services_db_v6');
+      const stored = localStorage.getItem('nihira_services_db_v7');
       const validIds = ['loans', 'insurance', 'credit-repair', 'mutual-funds', 'tax-filing'];
       
       let parsed = null;
@@ -67,7 +67,7 @@ export default function App() {
       if (isValid) {
         setServices(parsed);
       } else {
-        localStorage.setItem('nihira_services_db_v6', JSON.stringify(INITIAL_SERVICES));
+        localStorage.setItem('nihira_services_db_v7', JSON.stringify(INITIAL_SERVICES));
         setServices(INITIAL_SERVICES);
       }
     } catch (e) {
@@ -79,7 +79,7 @@ export default function App() {
   const handleSaveServices = (updated: Service[]) => {
     try {
       setServices(updated);
-      localStorage.setItem('nihira_services_db_v6', JSON.stringify(updated));
+      localStorage.setItem('nihira_services_db_v7', JSON.stringify(updated));
       if (selectedService) {
         const found = updated.find(s => s.id === selectedService.id);
         if (found) {
@@ -95,7 +95,7 @@ export default function App() {
 
   const handleResetDefaults = () => {
     try {
-      localStorage.setItem('nihira_services_db_v6', JSON.stringify(INITIAL_SERVICES));
+      localStorage.setItem('nihira_services_db_v7', JSON.stringify(INITIAL_SERVICES));
       setServices(INITIAL_SERVICES);
       setSelectedService(null);
     } catch (e) {

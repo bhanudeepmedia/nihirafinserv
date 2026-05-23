@@ -31,7 +31,7 @@ export default function ServicesView({ services, selectedService, onSelectServic
       'Project funding',
       'School and college funding',
       'Solar funding',
-      'nihira-finserv loans'
+      'NRI loans'
     ],
     'insurance': [
       'Health Insurance',

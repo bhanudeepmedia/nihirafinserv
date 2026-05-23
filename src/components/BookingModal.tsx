@@ -23,7 +23,7 @@ export default function BookingModal({ isOpen, onClose, onSubmitConsultation }: 
       'Project funding',
       'School and college funding',
       'Solar funding',
-      'nihira-finserv loans'
+      'NRI loans'
     ],
     'Insurance': [
       'Health Insurance',

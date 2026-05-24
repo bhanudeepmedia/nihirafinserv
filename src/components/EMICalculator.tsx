@@ -7,6 +7,7 @@ export default function EMICalculator() {
   const [interestRate, setInterestRate] = useState<number>(8.45); // 8.45% default
   const [loanTerm, setLoanTerm] = useState<number>(20); // 20 years default
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
+  const [scheduleView, setScheduleView] = useState<'yearly' | 'monthly'>('yearly');
 
   // Input states representing direct raw typed text to allow smooth typing & formatting
   const [typedAmount, setTypedAmount] = useState<string>('5,000,000');
@@ -26,7 +27,8 @@ export default function EMICalculator() {
         totalRepayment: 0,
         principalPercentage: 50,
         interestPercentage: 50,
-        yearlyBreakdown: []
+        yearlyBreakdown: [],
+        monthlyBreakdown: []
       };
     }
 
@@ -38,31 +40,44 @@ export default function EMICalculator() {
     const principalPct = Math.round((P / totalRepayment) * 100);
     const interestPct = 100 - principalPct;
 
-    // Amortization schedule per year (or per group of 12 months)
-    const breakdown: { year: number; principalPaid: number; interestPaid: number; endingBalance: number }[] = [];
+    // Monthly breakdown
+    const monthlyBreakdown: { month: number; principalPaid: number; interestPaid: number; endingBalance: number }[] = [];
+    // Yearly breakdown
+    const yearlyBreakdown: { year: number; principalPaid: number; interestPaid: number; endingBalance: number }[] = [];
+    
     let remainingBalance = P;
-    const yearsCount = Math.ceil(totalMonths / 12);
 
-    for (let u = 1; u <= yearsCount; u++) {
-      let annualPrincipal = 0;
-      let annualInterest = 0;
-      const monthsInThisSegment = Math.min(12, totalMonths - (u - 1) * 12);
-
-      for (let m = 0; m < monthsInThisSegment; m++) {
-        const monthlyInterestBill = remainingBalance * r;
-        const monthlyPrincipalBill = emi - monthlyInterestBill;
-        
-        annualInterest += monthlyInterestBill;
-        annualPrincipal += monthlyPrincipalBill;
-        remainingBalance = Math.max(0, remainingBalance - monthlyPrincipalBill);
-      }
-
-      breakdown.push({
-        year: u,
-        principalPaid: Math.round(annualPrincipal),
-        interestPaid: Math.round(annualInterest),
+    for (let m = 1; m <= totalMonths; m++) {
+      const monthlyInterestBill = remainingBalance * r;
+      const monthlyPrincipalBill = emi - monthlyInterestBill;
+      remainingBalance = Math.max(0, remainingBalance - monthlyPrincipalBill);
+      
+      monthlyBreakdown.push({
+        month: m,
+        principalPaid: Math.round(monthlyPrincipalBill),
+        interestPaid: Math.round(monthlyInterestBill),
         endingBalance: Math.round(remainingBalance)
       });
+    }
+
+    // Now group into years
+    let tempPrincipal = 0;
+    let tempInterest = 0;
+    for (let m = 1; m <= totalMonths; m++) {
+      tempPrincipal += monthlyBreakdown[m-1].principalPaid;
+      tempInterest += monthlyBreakdown[m-1].interestPaid;
+      
+      if (m % 12 === 0 || m === totalMonths) {
+        const yearNum = Math.ceil(m / 12);
+        yearlyBreakdown.push({
+          year: yearNum,
+          principalPaid: tempPrincipal,
+          interestPaid: tempInterest,
+          endingBalance: monthlyBreakdown[m-1].endingBalance
+        });
+        tempPrincipal = 0;
+        tempInterest = 0;
+      }
     }
 
     return {
@@ -71,7 +86,8 @@ export default function EMICalculator() {
       totalRepayment: Math.round(totalRepayment),
       principalPercentage: principalPct,
       interestPercentage: interestPct,
-      yearlyBreakdown: breakdown
+      yearlyBreakdown,
+      monthlyBreakdown
     };
   }, [loanAmount, interestRate, loanTerm, termUnit]);
 
@@ -112,8 +128,9 @@ export default function EMICalculator() {
 
   // CSV Exporter
   const downloadCSV = () => {
+    const isYearly = scheduleView === 'yearly';
     const csvRows = [
-      ["NIHIRA FINSERV", "OFFICIAL LOAN AMORTIZATION SCHEDULE RECONCILIATION REPORT"],
+      ["NIHIRA FINSERV", `OFFICIAL LOAN AMORTIZATION SCHEDULE RECONCILIATION REPORT (${isYearly ? 'YEARLY' : 'MONTHLY'} BREAKDOWN)`],
       ["Report Generated", `${new Date().toLocaleDateString('en-IN')} ${new Date().toLocaleTimeString('en-IN')}`],
       ["Contact Support", "Phone/WhatsApp: +91 8143355559"],
       [],
@@ -126,17 +143,28 @@ export default function EMICalculator() {
       ["Total Cumulative Repayment Amount", `INR ${emiData.totalRepayment}`],
       [],
       ["AMORTIZATION LEDGER DETAILS", ""],
-      ["Year / Segment", "Principal Repaid (INR)", "Interest Paid (INR)", "Remaining Balance (INR)"]
+      [isYearly ? "Year" : "Month", "Principal Repaid (INR)", "Interest Paid (INR)", "Remaining Balance (INR)"]
     ];
 
-    emiData.yearlyBreakdown.forEach((row) => {
-      csvRows.push([
-        `Year ${row.year}`,
-        row.principalPaid.toString(),
-        row.interestPaid.toString(),
-        row.endingBalance.toString()
-      ]);
-    });
+    if (isYearly) {
+      emiData.yearlyBreakdown.forEach((row) => {
+        csvRows.push([
+          `Year ${row.year}`,
+          row.principalPaid.toString(),
+          row.interestPaid.toString(),
+          row.endingBalance.toString()
+        ]);
+      });
+    } else {
+      emiData.monthlyBreakdown.forEach((row) => {
+        csvRows.push([
+          `Month ${row.month}`,
+          row.principalPaid.toString(),
+          row.interestPaid.toString(),
+          row.endingBalance.toString()
+        ]);
+      });
+    }
 
     const csvContent = csvRows.map(e => e.map(val => {
       let cleanVal = val.replace(/"/g, '""');
@@ -150,7 +178,7 @@ export default function EMICalculator() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", `Nihira_Finserv_EMI_Schedule_${loanAmount}.csv`);
+    link.setAttribute("download", `Nihira_Finserv_EMI_Schedule_${isYearly ? 'Yearly' : 'Monthly'}_${loanAmount}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -160,6 +188,7 @@ export default function EMICalculator() {
   // PDF Exporter
   const downloadPDF = () => {
     const doc = new jsPDF();
+    const isYearly = scheduleView === 'yearly';
 
     // Draw Top Colored Header Strip
     doc.setFillColor(242, 245, 248);
@@ -265,7 +294,7 @@ export default function EMICalculator() {
     doc.setTextColor(17, 24, 39);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
-    doc.text("ESTIMATED REPAYMENT LEDGER (YEARLY BREAKDOWN)", 20, 106);
+    doc.text(`ESTIMATED REPAYMENT LEDGER (${isYearly ? 'YEARLY' : 'MONTHLY'} BREAKDOWN)`, 20, 106);
 
     // Table Header Accent background
     doc.setFillColor(13, 57, 121);
@@ -275,7 +304,7 @@ export default function EMICalculator() {
     doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(8);
-    doc.text("YEAR / CYCLE", 25, 115);
+    doc.text(isYearly ? "YEAR / CYCLE" : "MONTH / CYCLE", 25, 115);
     doc.text("PRINCIPAL REPAID (INR)", 80, 115, { align: "right" });
     doc.text("INTEREST CHARGED (INR)", 135, 115, { align: "right" });
     doc.text("REMAINING BALANCE (INR)", 186, 115, { align: "right" });
@@ -284,14 +313,21 @@ export default function EMICalculator() {
     const rowHeight = 7;
     const maxPageBottom = 265;
 
-    emiData.yearlyBreakdown.forEach((row, idx) => {
+    const ledgerData = isYearly 
+      ? emiData.yearlyBreakdown.map(r => ({ label: `Year ${r.year}`, ...r }))
+      : emiData.monthlyBreakdown.map(r => ({ label: `Month ${r.month}`, ...r }));
+
+    let pageNum = 1;
+
+    ledgerData.forEach((row, idx) => {
       // Dynamic page breaks
       if (yPos > maxPageBottom) {
         doc.setFontSize(7);
         doc.setTextColor(148, 163, 184);
-        doc.text("Page of Nihira Finserv Repayment Statement", 105, 285, { align: "center" });
+        doc.text(`Page ${pageNum} of Nihira Finserv Repayment Statement`, 105, 285, { align: "center" });
 
         doc.addPage();
+        pageNum++;
 
         doc.setFillColor(13, 57, 121);
         doc.rect(20, 15, 170, 7, "F");
@@ -299,7 +335,7 @@ export default function EMICalculator() {
         doc.setTextColor(255, 255, 255);
         doc.setFont("helvetica", "bold");
         doc.setFontSize(8);
-        doc.text("YEAR / CYCLE", 25, 20);
+        doc.text(isYearly ? "YEAR / CYCLE" : "MONTH / CYCLE", 25, 20);
         doc.text("PRINCIPAL REPAID (INR)", 80, 20, { align: "right" });
         doc.text("INTEREST CHARGED (INR)", 135, 20, { align: "right" });
         doc.text("REMAINING BALANCE (INR)", 186, 20, { align: "right" });
@@ -317,7 +353,7 @@ export default function EMICalculator() {
       doc.setFont("helvetica", "bold");
       doc.setFontSize(8);
       doc.setTextColor(13, 57, 121);
-      doc.text(`Year ${row.year}`, 25, yPos);
+      doc.text(row.label, 25, yPos);
 
       doc.setFont("helvetica", "normal");
       doc.setTextColor(17, 24, 39);
@@ -342,7 +378,7 @@ export default function EMICalculator() {
     doc.setTextColor(148, 163, 184);
     doc.text("Disclaimer: Values provided are projected estimations. Actual terms are subject to formal underwriting and policies of partner banks. Nihira Finserv standard advisory norms apply.", 105, 282, { align: "center", maxWidth: 160 });
 
-    doc.save(`Nihira_Finserv_Amortization_Ledger_${loanAmount}.pdf`);
+    doc.save(`Nihira_Finserv_Amortization_Ledger_${isYearly ? 'Yearly' : 'Monthly'}_${loanAmount}.pdf`);
   };
 
   // SVG circular loader offsets
@@ -625,10 +661,32 @@ export default function EMICalculator() {
 
       {/* Structured Ledger breakdown (Amortization Schedule) */}
       <div className="mt-12 border-t border-[#E6E6E6] pt-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-          <h4 className="font-sans font-black text-sm uppercase tracking-widest text-[#0d3979] mb-0">
-            Yearly Amortization Schedule
-          </h4>
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+          <div className="flex flex-col gap-2">
+            <h4 className="font-sans font-black text-sm uppercase tracking-widest text-[#0d3979] mb-0">
+              Amortization Schedule
+            </h4>
+            <div className="flex bg-[#F5F5F4] border border-[#E6E6E6] rounded-xl p-0.5 w-fit">
+              <button
+                type="button"
+                onClick={() => setScheduleView('yearly')}
+                className={`px-3 py-1.5 text-[9px] font-mono tracking-widest uppercase rounded-lg transition-all cursor-pointer ${
+                  scheduleView === 'yearly' ? 'bg-[#0d3979] text-white font-bold' : 'text-[#111827]/60 hover:text-black font-semibold'
+                }`}
+              >
+                Yearly Breakdown
+              </button>
+              <button
+                type="button"
+                onClick={() => setScheduleView('monthly')}
+                className={`px-3 py-1.5 text-[9px] font-mono tracking-widest uppercase rounded-lg transition-all cursor-pointer ${
+                  scheduleView === 'monthly' ? 'bg-[#0d3979] text-white font-bold' : 'text-[#111827]/60 hover:text-black font-semibold'
+                }`}
+              >
+                Monthly Breakdown
+              </button>
+            </div>
+          </div>
           <div className="flex flex-wrap items-center gap-2">
             <button
               id="download_csv_button"
@@ -652,21 +710,34 @@ export default function EMICalculator() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#F5F5F4] border-b border-[#E6E6E6]">
-                <th className="py-2.5 px-4 font-mono text-[10px] uppercase font-bold tracking-wider text-[#111827]">Year</th>
+                <th className="py-2.5 px-4 font-mono text-[10px] uppercase font-bold tracking-wider text-[#111827]">
+                  {scheduleView === 'yearly' ? 'Year' : 'Month'}
+                </th>
                 <th className="py-2.5 px-4 font-mono text-[10px] uppercase font-bold tracking-wider text-[#111827] text-right">Principal Paid</th>
                 <th className="py-2.5 px-4 font-mono text-[10px] uppercase font-bold tracking-wider text-[#111827] text-right">Interest Charged</th>
                 <th className="py-2.5 px-4 font-mono text-[10px] uppercase font-bold tracking-wider text-[#111827] text-right">Remaining Balance</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E6E6E6]">
-              {emiData.yearlyBreakdown.map((row) => (
-                <tr key={row.year} className="hover:bg-[#F5F5F4]/30 transition-colors">
-                  <td className="py-2 px-4 font-sans text-xs text-[#0d3979] font-semibold">Year {row.year}</td>
-                  <td className="py-2 px-4 font-mono text-xs text-right text-black">{formatINR(row.principalPaid)}</td>
-                  <td className="py-2 px-4 font-mono text-xs text-right text-[#2F6E73]">{formatINR(row.interestPaid)}</td>
-                  <td className="py-2 px-4 font-mono text-xs text-right text-[#111827]/80">{formatINR(row.endingBalance)}</td>
-                </tr>
-              ))}
+              {scheduleView === 'yearly' ? (
+                emiData.yearlyBreakdown.map((row) => (
+                  <tr key={row.year} className="hover:bg-[#F5F5F4]/30 transition-colors">
+                    <td className="py-2 px-4 font-sans text-xs text-[#0d3979] font-semibold">Year {row.year}</td>
+                    <td className="py-2 px-4 font-mono text-xs text-right text-black">{formatINR(row.principalPaid)}</td>
+                    <td className="py-2 px-4 font-mono text-xs text-right text-[#2F6E73]">{formatINR(row.interestPaid)}</td>
+                    <td className="py-2 px-4 font-mono text-xs text-right text-[#111827]/80">{formatINR(row.endingBalance)}</td>
+                  </tr>
+                ))
+              ) : (
+                emiData.monthlyBreakdown.map((row) => (
+                  <tr key={row.month} className="hover:bg-[#F5F5F4]/30 transition-colors">
+                    <td className="py-2 px-4 font-sans text-xs text-[#0d3979] font-semibold">Month {row.month}</td>
+                    <td className="py-2 px-4 font-mono text-xs text-right text-black">{formatINR(row.principalPaid)}</td>
+                    <td className="py-2 px-4 font-mono text-xs text-right text-[#2F6E73]">{formatINR(row.interestPaid)}</td>
+                    <td className="py-2 px-4 font-mono text-xs text-right text-[#111827]/80">{formatINR(row.endingBalance)}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
